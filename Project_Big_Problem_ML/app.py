@@ -23,20 +23,21 @@ def pred(df, cl_cl, lev_cl, level_en, scaler_cl, scaler):
             self.classes_ = pd.Series(y).unique()
             return self
     y_n_en = ChEncoder()
-    gender_en = LabelEncoder()
     y_n_en.fit(["Нет", "Да"])
     for i in dd.columns[3:]:
         dd[i] = y_n_en.transform(dd[i])
-    dd["gender"] = gender_en.fit_transform(dd["gender"])
-    print(dd["gender"].unique())
-    Xc = scaler_cl.transform(dd.drop(["patient_id"], axis=1))
+        dd[i] += 1
+    
+    Xc = scaler_cl.transform(dd.drop(["patient_id", "gender"], axis=1))
     dd["clust"] = cl_cl.predict(Xc)
-    X = scaler.transform(dd.drop(["patient_id"], axis=1))
+    X = scaler.transform(dd.drop(["patient_id", "gender"], axis=1))
+    dd.drop(["clust"], axis=1, inplace=True) 
     for i in dd.columns[3:]:
+        dd[i] -= 1
         dd[i] = y_n_en.inverse_transform(dd[i])
     dd["lung_cancer"] = lev_cl.predict(X)
-    dd.drop(["clust"], axis=1, inplace=True)
-    dd["gender"] = gender_en.inverse_transform(dd["gender"])
+    
+   
     dd["lung_cancer"] = level_en.inverse_transform(dd["lung_cancer"])
     return dd
 
