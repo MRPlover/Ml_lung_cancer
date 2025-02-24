@@ -131,34 +131,34 @@ def main():
     st.markdown(html_temp, unsafe_allow_html = True) 
 
     if st.toggle("Да_Нет/Слайдер"):
-        with open("Project_slider\label_encoder_level.pickle", "rb") as file:
+        with open("Project_slider/label_encoder_level.pickle", "rb") as file:
             cancer_le = pickle.load(file)
         
-        with open("Project_slider\model_rfc_clust.pkl", "rb") as file:
+        with open("Project_slider/model_rfc_clust.pkl", "rb") as file:
             rfc_clust = pickle.load(file)
 
         if "RandomForestClassifier" not in st.session_state:
-            with open("Project_slider\model_rfc.pkl", "rb") as file:
+            with open("Project_slider/model_rfc.pkl", "rb") as file:
                 st.session_state["RandomForestClassifier"] = pickle.load(file)
         if "ExtraTreesClassifier" not in st.session_state:
-            with open("Project_slider\model_etc.pkl", "rb") as file:
+            with open("Project_slider/model_etc.pkl", "rb") as file:
                 st.session_state["ExtraTreesClassifier"] = pickle.load(file)
         if "GradientBoostingClassifier" not in st.session_state:
-            with open("Project_slider\model_gbc.pkl", "rb") as file:
+            with open("Project_slider/model_gbc.pkl", "rb") as file:
                 st.session_state["GradientBoostingClassifier"] = pickle.load(file)
         if "HistGradientBoostingClassifier" not in st.session_state:
-            with open("Project_slider\model_hgbc.pkl", "rb") as file:
+            with open("Project_slider/model_hgbc.pkl", "rb") as file:
                 st.session_state["HistGradientBoostingClassifier"] = pickle.load(file)
         if "AdaBoostClassifier" not in st.session_state:
-            with open("Project_slider\model_adc.pkl", "rb") as file:
+            with open("Project_slider/model_adc.pkl", "rb") as file:
                 st.session_state["AdaBoostClassifier"] = pickle.load(file)
         if "PassiveAggressiveClassifier" not in st.session_state:
-            with open("Project_slider\model_pac.pkl", "rb") as file:
+            with open("Project_slider/model_pac.pkl", "rb") as file:
                 st.session_state["PassiveAggressiveClassifier"] = pickle.load(file)
 
-        with open("Project_slider\scaler_clust.pkl", "rb") as file:
+        with open("Project_slider/scaler_clust.pkl", "rb") as file:
             scaler_cl = pickle.load(file)
-        with open("Project_slider\scaler.pkl", "rb") as file:
+        with open("Project_slider/scaler.pkl", "rb") as file:
             scaler = pickle.load(file)
 
         nb = {}
@@ -259,17 +259,17 @@ def main():
 
 
     else:
-        with open("Project_Yes_No\label_encoder_cancer.pickle", "rb") as file:
+        with open("Project_Yes_No/label_encoder_cancer.pickle", "rb") as file:
             cancer_le = pickle.load(file)
         
-        with open("Project_Yes_No\model_rfc_clust.pkl", "rb") as file:
+        with open("Project_Yes_No/model_rfc_clust.pkl", "rb") as file:
             rfc_clust = pickle.load(file)
-        with open("Project_Yes_No\model_rfc.pkl", "rb") as file:
+        with open("Project_Yes_No/model_rfc.pkl", "rb") as file:
             rfc = pickle.load(file)
 
-        with open("Project_Yes_No\scaler_clust.pkl", "rb") as file:
+        with open("Project_Yes_No/scaler_clust.pkl", "rb") as file:
             scaler_cl = pickle.load(file)
-        with open("Project_Yes_No\scaler.pkl", "rb") as file:
+        with open("Project_Yes_No/scaler.pkl", "rb") as file:
             scaler = pickle.load(file)
 
         
@@ -284,10 +284,10 @@ def main():
             
             nb = {"patient_id":[], "gender":[], "age":[], "smoking":[], "yellow_fingers":[], "anxiety":[], "peer_pressure":[], "chronic_disease":[], "fatigue":[], "allergy":[], "wheezing":[], "alcohol":[], "coughing":[], "shortness_of_breath":[], "swallowing_difficulty":[], "chest_pain":[]}
             # Выбор кол-ва строк ввода
-            num_rows = st.slider("Выберите ко-во строк: ", min_value=1)
+            num_rows = st.slider("Выберите ко-во строк: ", min_value=1, max_value=10)
             # Ввод строк
             for i in range(1, num_rows+1):
-                pi, ge, ag, sm, yf, an, pp, cd, fa, al, wh, alc, cou, sob, sd, cp = st.columns(16,vertical_alignment="bottom")
+                pi, ge, ag, sm, yf, an, pp, cd, fa, al, wh, alc, cou, sob, sd, cp = st.columns(16, vertical_alignment="bottom")
                 new_input_y_n(nb, pi, ge, ag, sm, yf, an, pp, cd, fa, al, wh, alc, cou, sob, sd, cp, i)
             
             new_base = pd.DataFrame(nb)
